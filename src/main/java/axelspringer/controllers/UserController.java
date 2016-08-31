@@ -1,12 +1,15 @@
-package netgloo.controllers;
+package axelspringer.controllers;
 
-import netgloo.models.User;
-import netgloo.models.UserDao;
+import axelspringer.models.User;
+import axelspringer.models.UserDao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.Console;
+import java.util.List;
+import java.util.StringJoiner;
 
 /**
  * Class UserController
@@ -69,6 +72,27 @@ public class UserController {
         return "The user id is: " + userId;
     }
 
+
+    @RequestMapping(value = "/findAll")
+    @ResponseBody
+    public String findAllUsers() {
+        String username = "";
+        try {
+            List<User> user = userDao.getAll();
+            StringJoiner usernames = new StringJoiner(", ");
+
+
+            for (User anUser : user) {
+                usernames.add(anUser.getName());
+
+            }
+            return usernames.toString();
+
+        } catch (Exception ex) {
+            return "User not found: " + ex.toString();
+        }
+    }
+
     // ------------------------
     // PRIVATE FIELDS
     // ------------------------
@@ -89,5 +113,6 @@ public class UserController {
         }
         return "User succesfully updated!";
     }
+
 
 } // class UserController

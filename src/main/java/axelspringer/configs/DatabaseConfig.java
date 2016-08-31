@@ -1,4 +1,4 @@
-package netgloo.configs;
+package axelspringer.configs;
 
 import java.util.Properties;
 
