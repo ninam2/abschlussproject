@@ -10,7 +10,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 /**
- * This class is used to access data for the User entity.
+ * This class is used to access data for the Azubi entity.
  * Repository annotation allows the component scanning support to find and
  * configure the DAO wihtout any XML configuration and also provide the Spring
  * exceptiom translation.
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Transactional
-public class UserDao {
+public class AzubiDao {
 
     // ------------------------
     // PUBLIC METHODS
@@ -33,47 +33,47 @@ public class UserDao {
     private EntityManager entityManager;
 
     /**
-     * Save the user in the database.
+     * Save the Azubi in the database.
      */
-    public void create(User user) {
-        entityManager.persist(user);
+    public void create(Azubi Azubi) {
+        entityManager.persist(Azubi);
         return;
     }
 
     /**
-     * Delete the user from the database.
+     * Delete the Azubi from the database.
      */
-    public void delete(User user) {
-        if (entityManager.contains(user))
-            entityManager.remove(user);
+    public void delete(Azubi Azubi) {
+        if (entityManager.contains(Azubi))
+            entityManager.remove(Azubi);
         else
-            entityManager.remove(entityManager.merge(user));
+            entityManager.remove(entityManager.merge(Azubi));
         return;
     }
 
     /**
-     * Return all the users stored in the database.
+     * Return all the Azubis stored in the database.
      */
     @SuppressWarnings("unchecked")
-    public List<User> getAll() {
-        return entityManager.createQuery("from User").getResultList();
+    public List<Azubi> getAll() {
+        return entityManager.createQuery("from Azubi").getResultList();
     }
 
     /**
-     * Return the user having the passed email.
+     * Return the Azubi having the passed email.
      */
-    public User getByEmail(String email) {
-        return (User) entityManager.createQuery(
-                "from User where email = :email")
+    public Azubi getByEmail(String email) {
+        return (Azubi) entityManager.createQuery(
+                "from Azubi where email = :email")
                 .setParameter("email", email)
                 .getSingleResult();
     }
 
     /**
-     * Return the user having the passed id.
+     * Return the Azubi having the passed id.
      */
-    public User getById(long id) {
-        return entityManager.find(User.class, id);
+    public Azubi getById(long id) {
+        return entityManager.find(Azubi.class, id);
     }
 
     // ------------------------
@@ -81,11 +81,11 @@ public class UserDao {
     // ------------------------
 
     /**
-     * Update the passed user in the database.
+     * Update the passed Azubi in the database.
      */
-    public void update(User user) {
-        entityManager.merge(user);
+    public void update(Azubi Azubi) {
+        entityManager.merge(Azubi);
         return;
     }
 
-} // class UserDao
+} // class AzubiDao

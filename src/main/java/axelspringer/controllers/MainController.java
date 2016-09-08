@@ -11,5 +11,10 @@ public class MainController {
         return "hello.html";
     }
 
+    @RequestMapping("/getAllAzubis")
+    public String azubis() {
+        return "getAllAzubis.html";
+    }
+
 
 }

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<body>
+
+<div ng-app="myApp" ng-controller="customersCtrl">
+
+    <ul>test
+        <li ng-repeat="x in myData">
+
+            {{ x.name + ', ' + x.email }}
+        </li>
+    </ul>
+
+</div>
+
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('customersCtrl', function ($scope, $http) {
+        $http.get("findAll").then(function (response) {
+            console.log(response.data);
+            $scope.myData = response.data.azubiinfos;
+        });
+    });
+</script>
+
+</body>
+</html>

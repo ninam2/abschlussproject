@@ -8,10 +8,10 @@ http://blog.axelspringer.com/2014/10/06/spring-boot-data-access-with-jpa-hiberna
 - Run the application and go on http://localhost:8080/
 - Use the following urls to invoke controllers methods and see the interactions
   with the database:
-    * `/user/save?email=[email]&name=[name]`: create a new user with an 
+    * `/Azubi/save?email=[email]&name=[name]`: create a new Azubi with an 
       auto-generated id and email and name as passed values.
-    * `/user/delete?id=[id]`: delete the user with the passed id.
-    * `/user/get-by-email?email=[email]`: retrieve the id for the user with the
+    * `/Azubi/delete?id=[id]`: delete the Azubi with the passed id.
+    * `/Azubi/get-by-email?email=[email]`: retrieve the id for the Azubi with the
       passed email address.
 
 ### Build and run
