@@ -1,28 +1,216 @@
 <!DOCTYPE html>
 <html>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<head>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/getAzubis.js"></script>
+    <script src="js/getJobs.js"></script>
+    <script src="js/getContracts.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
 <body>
+<nav class="navbar navbar-inverse" role="navigation">
+    <div>
 
-<div ng-app="myApp" ng-controller="customersCtrl">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="getAll">A z u b i s</a>
+        </div>
 
-    <ul>test
-        <li ng-repeat="x in myData">
+        <ul class="nav navbar-nav">
+            <li><a href="add">Hinzufügen</a></li>
 
-            {{ x.name + ', ' + x.email }}
-        </li>
-    </ul>
+            <li class="dropdown">
+                <a href="getAll" class="dropdown-toggle" data-toggle="dropdown">
+                    Verträge
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu vertrag">
+                </ul>
+            </li>
+
+            <li class="dropdown">
+                <a href="getAll" class="dropdown-toggle" data-toggle="dropdown">
+                    Beruf
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu job">
+                </ul>
+            </li>
+
+
+            <li class="dropdown">
+                <a href="getAll" class="dropdown-toggle" data-toggle="dropdown">
+                    Start
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu year">
+                </ul>
+
+            </li>
+        </ul>
+    </div>
+
+    <div class="navbar-header nav_axelspringer">
+        <img src="img/axelspringer_logo.png" class="axelspringer_logo">
+    </div>
+
+</nav>
+
+<div class="page-header">
+
+    <h1>
+        Axel Springer Berufsausbildung
+        <small> Auszubildendenverwaltung</small>
+    </h1>
 
 </div>
 
-<script>
-    var app = angular.module('myApp', []);
-    app.controller('customersCtrl', function ($scope, $http) {
-        $http.get("findAll").then(function (response) {
-            console.log(response.data);
-            $scope.myData = response.data.azubiinfos;
-        });
-    });
-</script>
+<div class="container">
+    <h2>Axel Springer Azubis</h2>
+    <small>Hier werden alle Azubis des Ausbildungsganges XXXX dargestellt. :)</small>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Bearbeiten</th>
+            <th>Name</th>
+            <th>Vorname</th>
+            <th>Email</th>
+            <th>Beruf</th>
+            <th>Straße</th>
+            <th>plz</th>
+            <th>Geburtsdatum</th>
+            <th>Geburtsort</th>
+            <th>Ausbildungsstart</th>
+            <th>Vertraege</th>
+
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Ausbildungsverwaltung</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <label for="vorname" class="col-sm-2 control-label">Vorname</label>
+                    <div class="col-sm-10 input">
+                        <input type="text" class="form-control " id="vorname" placeholder="Enter First Name">
+                    </div>
+
+                    <label for="name" class="col-sm-2 control-label">Name</label>
+                    <div class="input col-sm-10 ">
+                        <input type="text" class="form-control " id="name" placeholder="Enter Last Name">
+                    </div>
+
+                    <label for="beruf" class="col-sm-2 control-label">Ausbildungsberuf</label>
+                    <div class="col-sm-10 input">
+                        <input type="text" class="form-control " id="beruf" placeholder="Ausbildungsberuf">
+                    </div>
+
+                    <label for="email" class="col-sm-2 control-label">E-Mail-Adresse</label>
+                    <div class="col-sm-10 input">
+                        <input type="text" class="form-control " id="email" placeholder="Email">
+                    </div>
+
+                    <label for="strasse" class="col-sm-2 control-label">Straße</label>
+                    <div class="col-sm-10 input">
+                        <input type="text" class="form-control " id="strasse" placeholder="Straße">
+                    </div>
+
+                    <label for="plz" class="col-sm-2 control-label">Postleitzahl</label>
+                    <div class="col-sm-10 input">
+                        <input type="text" class="form-control " id="plz" placeholder="Postleitzahl">
+                    </div>
+
+                    <label for="gebDatum" class="col-sm-2 control-label">Geburtsdatum</label>
+                    <div class="col-sm-10 input">
+                        <input type="text" class="form-control " id="gebDatum" placeholder="Geburtsdatum">
+                    </div>
+
+                    <label for="gebOrt" class="col-sm-2 control-label">Geburtsort</label>
+                    <div class="col-sm-10 input">
+                        <input type="text" class="form-control " id="gebOrt" placeholder="Geburtsort">
+                    </div>
+
+                    <label for="ausbildungsstart" class="col-sm-2 control-label">Ausbildungsstart</label>
+                    <div class="col-sm-10 input">
+                        <input type="text" class="form-control " id="ausbildungsstart" placeholder="Ausbildungsstart">
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <a class='icon left-icon'>
+                    <img src="img/icons/save.svg" class=" submit" onclick="location.reload()">
+                </a>
+
+                <a class='icon left-icon'>
+                    <img src="img/icons/delete.svg" class="delete" onclick="location.reload()">
+                </a>
+
+                <a class='icon right-icon'>
+                    <img src="img/icons/close.svg" data-dismiss="modal" onclick="location.reload()">
+                </a>
+                <a class='icon right-icon'>
+                    <img src="img/vertraege.svg" data-dismiss="modal" onclick="location.reload()">
+                </a>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+
+<div class="modal fade" id="myContract" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Vertragsunterzeichnungen</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group" id="contract-content">
+                    <label for="name" class="col-sm-2 control-label">neue Unterzeichnung</label>
+                    <div class="input col-sm-10 ">
+                        <input type="text" class="form-control " id="newContract"
+                               placeholder="Hier neuen Vertragsnamen angeben">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+
+                <a class='icon left-icon'>
+                    <img src="img/icons/save.svg" class="submitContract">
+                </a>
+
+                <a class='icon right-icon'>
+                    <img src="img/icons/close.svg" data-dismiss="modalContract" onclick="location.reload()">
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</div>
 
 </body>
 </html>

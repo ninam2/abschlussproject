@@ -1,0 +1,63 @@
+
+h1 {
+    color: #0080c7 !important;
+}
+
+h1 small {
+    color: #4fa3dd !important;
+}
+
+h2 {
+    color: #e3001b !important;
+}
+
+h2 small {
+    color: #ca5260 !important;
+}
+
+thead {
+    color: #009038 !important;
+}
+
+.input {
+    margin-bottom: 3%;
+}
+
+/*icons*/
+.icon {
+    padding: 15px;
+}
+
+.icon img {
+    height: 65px;
+}
+
+.left-icon {
+    float: left;
+}
+
+.right-icon {
+    float: right;
+}
+
+.navbar-inverse {
+    background-color: #19171c !important;
+}
+
+.modal-footer {
+    margin-top: 58%;
+}
+
+.table > tbody > tr > td {
+    vertical-align: baseline !important;
+}
+
+/*Axel Springer-Logo*/
+.nav_axelspringer {
+    float: right !important;
+}
+
+.axelspringer_logo {
+    padding: 15px 15px;
+}
+

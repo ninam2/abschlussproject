@@ -8,13 +8,19 @@ public class MainController {
 
     @RequestMapping("/")
     public String index() {
-        return "hello.html";
-    }
 
-    @RequestMapping("/getAllAzubis")
-    public String azubis() {
         return "getAllAzubis.html";
     }
 
+    @RequestMapping("/getAll")
+    public String vertrags() {
 
+        return "getAllAzubis.html";
+    }
+
+    @RequestMapping("/add")
+    public String add() {
+
+        return "addAzubi.html";
+    }
 }

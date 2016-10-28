@@ -1,6 +1,5 @@
 package axelspringer.models;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -23,45 +22,71 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public class AzubiDao {
 
-    // ------------------------
-    // PUBLIC METHODS
-    // ------------------------
-
     // An EntityManager will be automatically injected from entityManagerFactory
     // setup on DatabaseConfig class.
     @PersistenceContext
     private EntityManager entityManager;
 
-    /**
-     * Save the Azubi in the database.
-     */
+
     public void create(Azubi Azubi) {
         entityManager.persist(Azubi);
-        return;
     }
 
-    /**
-     * Delete the Azubi from the database.
-     */
+
     public void delete(Azubi Azubi) {
         if (entityManager.contains(Azubi))
             entityManager.remove(Azubi);
         else
             entityManager.remove(entityManager.merge(Azubi));
-        return;
     }
 
-    /**
-     * Return all the Azubis stored in the database.
-     */
+
     @SuppressWarnings("unchecked")
     public List<Azubi> getAll() {
+
         return entityManager.createQuery("from Azubi").getResultList();
     }
 
-    /**
-     * Return the Azubi having the passed email.
-     */
+    public List getAllByVertrag(String vertrag) {
+
+        return entityManager.createQuery(
+                "from Azubi " +
+                        "where id in" +
+                        "(select azubi_id " +
+                        "from Vertrag " +
+                        "where vertragsart = 'test')")
+                .getResultList();
+    }
+
+    public List getAllByYear(int ausbildungsstart) {
+
+        return entityManager.createQuery(
+                "from Azubi where ausbildungsstart = :ausbildungsstart")
+                .setParameter("ausbildungsstart", ausbildungsstart)
+                .getResultList();
+    }
+
+    public List getAllByJob(String beruf) {
+
+        return entityManager.createQuery(
+                "from Azubi where beruf = :beruf")
+                .setParameter("beruf", beruf)
+                .getResultList();
+    }
+
+    public List getAllJobs() {
+
+        return entityManager.createQuery("" +
+                "select distinct beruf " +
+                "from Azubi").getResultList();
+    }
+
+    public List getAllYears() {
+        return entityManager.createQuery("" +
+                "select distinct ausbildungsstart " +
+                "from Azubi").getResultList();
+    }
+
     public Azubi getByEmail(String email) {
         return (Azubi) entityManager.createQuery(
                 "from Azubi where email = :email")
@@ -69,23 +94,15 @@ public class AzubiDao {
                 .getSingleResult();
     }
 
-    /**
-     * Return the Azubi having the passed id.
-     */
     public Azubi getById(long id) {
         return entityManager.find(Azubi.class, id);
     }
-
-    // ------------------------
-    // PRIVATE FIELDS
-    // ------------------------
 
     /**
      * Update the passed Azubi in the database.
      */
     public void update(Azubi Azubi) {
         entityManager.merge(Azubi);
-        return;
     }
 
-} // class AzubiDao
+}
