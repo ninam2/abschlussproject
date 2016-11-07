@@ -24,7 +24,7 @@ $.get("findAllJobsAndYears", function (jsonObject) {
     for (var index = 0; index < json.vertragsarten.length; ++index) {
         var currentVertrag = json.vertragsarten[index].vertragsart;
         $("<li>" +
-            "<a href = '/getAll?vertrag=" + currentVertrag + "'>" +
+            "<a href = '/getAll?vertragsart=" + currentVertrag + "'>" +
             currentVertrag + "" +
             "</a>" +
             "</li>"

@@ -27,20 +27,33 @@ import java.util.List;
 public class AzubiController {
 
     @Autowired
-    private AzubiDao AzubiDao;
+    private AzubiDao azubiDao;
 
     @Autowired
     private VertragDao vertragDao;
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    public String create(String email, String name, String vorname, String beruf, String strasse, Integer plz, String gebDatum, String gebOrt, Integer ausbildungsstart) {
+    public String create(String email, String name, String vorname, String beruf, String strasse, Integer plz, String gebDatum, String gebOrt, Integer ausbildungsstart) throws IOException {
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date date = formatter.parse(gebDatum);
 
             Azubi azubi = new Azubi(email, name, vorname, beruf, strasse, plz, date, gebOrt, ausbildungsstart);
-            AzubiDao.create(azubi);
+            azubiDao.create(azubi);
+
+            List<String> Vertragsarten = vertragDao.getAllVertragsarten();
+            for (String vertragsart : Vertragsarten) {
+                Vertrag vertrag = new Vertrag();
+                vertrag.setAzubi_id(azubi.getId());
+                vertrag.setVertragsart(vertragsart);
+                vertrag.setVertragsvalue("unbearbeitet");
+                vertragDao.updateVertraege(vertrag);
+
+            }
+
+
+
         } catch (Exception ex) {
             return "Error creating the Azubi: " + ex.toString();
         }
@@ -50,17 +63,18 @@ public class AzubiController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
-    public String updateName(long id, String email, String name, String vorname, String beruf, String strasse, Integer plz, String gebDatum, String gebOrt, Integer ausbildungsstart) {
+    public String updateName(long id, String email, String name, String vorname, String beruf, String strasse, Integer plz, String gebOrt, Integer ausbildungsstart) {
         try {
-            Azubi azubi = AzubiDao.getById(id);
+            Azubi azubi = azubiDao.getById(id);
             azubi.setEmail(email);
             azubi.setName(name);
             azubi.setVorname(vorname);
             azubi.setBeruf(beruf);
             azubi.setStrasse(strasse);
             azubi.setPLZ(plz);
+            azubi.setGebOrt(gebOrt);
             azubi.setAusbildungsstart(ausbildungsstart);
-            AzubiDao.update(azubi);
+            azubiDao.update(azubi);
 
         } catch (Exception ex) {
             return "Error updating the Azubi: " + ex.toString();
@@ -73,8 +87,11 @@ public class AzubiController {
     @ResponseBody
     public String delete(long id) {
         try {
+            Vertrag vertrag = new Vertrag();
+            vertrag.setAzubi_id(id);
+            vertragDao.deleteVertragById(vertrag);
             Azubi azubi = new Azubi(id);
-            AzubiDao.delete(azubi);
+            azubiDao.delete(azubi);
         } catch (Exception ex) {
             return "Error deleting the Azubi: " + ex.toString();
         }
@@ -84,7 +101,7 @@ public class AzubiController {
     @RequestMapping(value = "/findAll")
     @ResponseBody
     public String findAllAzubis() throws IOException {
-        List<Azubi> Azubi = AzubiDao.getAll();
+        List<Azubi> Azubi = azubiDao.getAll();
         return putInformationsToAzubiJSON(Azubi);
     }
 
@@ -92,18 +109,21 @@ public class AzubiController {
     @RequestMapping(value = "/findAllByVertrag")
     @ResponseBody
     public String findVertraegeByAzubiId(String vertragsart) throws IOException {
-        List<Azubi> azubis = AzubiDao.getAllByVertrag(vertragsart);
-        System.out.println("#########");
-        System.out.println(azubis);
-        System.out.println("#########");
+        List azubis = azubiDao.getAllByVertrag(vertragsart);
+        return putInformationsToAzubiJSON(azubis);
+    }
 
+    @RequestMapping(value = "/findAllByVertragAndValue")
+    @ResponseBody
+    public String findVertraegeByTypeAndValue(String vertragsart, String vertragsvalue) throws IOException {
+        List<Azubi> azubis = azubiDao.getAllByVertragsartAndValue(vertragsart, vertragsvalue);
         return putInformationsToAzubiJSON(azubis);
     }
 
     @RequestMapping(value = "/findAllByYear")
     @ResponseBody
     public String findAllAzubisByYear(Integer year) throws IOException {
-        List<Azubi> azubi = AzubiDao.getAllByYear(year);
+        List<Azubi> azubi = azubiDao.getAllByYear(year);
         return putInformationsToAzubiJSON(azubi);
     }
 
@@ -111,7 +131,7 @@ public class AzubiController {
     @RequestMapping(value = "/findAllByJob")
     @ResponseBody
     public String findAllAzubisByJob(String beruf) throws IOException {
-        List<Azubi> azubi = AzubiDao.getAllByJob(beruf);
+        List<Azubi> azubi = azubiDao.getAllByJob(beruf);
         return putInformationsToAzubiJSON(azubi);
     }
 
@@ -119,34 +139,15 @@ public class AzubiController {
     @RequestMapping(value = "/findAllJobsAndYears")
     @ResponseBody
     public String findAllAzubisJobsAndYears() throws IOException {
-        List Jobs = AzubiDao.getAllJobs();
-        List Years = AzubiDao.getAllYears();
+        List Jobs = azubiDao.getAllJobs();
+        List Years = azubiDao.getAllYears();
         List Vertraege = vertragDao.getAllVertragsarten();
         List attributes = new ArrayList();
         attributes.add(Jobs);
         attributes.add(Years);
         attributes.add(Vertraege);
-        System.out.print(Years);
         return makeJSON(Jobs, Years, Vertraege);
     }
-
-
-    /**
-     * Retrieve the id for the Azubi with the passed email address.
-     */
-    @RequestMapping(value = "/get-by-email")
-    @ResponseBody
-    public String getByEmail(String email) {
-        String AzubiId;
-        try {
-            Azubi Azubi = AzubiDao.getByEmail(email);
-            AzubiId = String.valueOf(Azubi.getId());
-        } catch (Exception ex) {
-            return "Azubi not found: " + ex.toString();
-        }
-        return "The Azubi id is: " + AzubiId;
-    }
-
 
     private String makeJSON(List jobs, List years, List vertraege) throws IOException {
         String jsonText;
@@ -179,7 +180,7 @@ public class AzubiController {
         }
     }
 
-    private JSONObject putInformationsTovertragJSON(List<Vertrag> vertrag) throws IOException {
+    protected JSONObject putInformationsTovertragJSON(List<Vertrag> vertrag) throws IOException {
 
         String jsonText;
         StringWriter out = new StringWriter();
@@ -199,7 +200,7 @@ public class AzubiController {
         return vertragjson;
     }
 
-    private String putInformationsToAzubiJSON(List<Azubi> azubi) throws IOException {
+    protected String putInformationsToAzubiJSON(List<Azubi> azubi) throws IOException {
         String jsonText;
         StringWriter out = new StringWriter();
         JSONObject azubijson = new JSONObject();

@@ -1,12 +1,11 @@
 package axelspringer.controllers;
 
-import axelspringer.models.Azubi;
 import axelspringer.models.Vertrag;
 import axelspringer.models.VertragDao;
-import axelspringer.models.VertragId;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.SystemEnvironmentPropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,10 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Class vertragController
@@ -30,32 +27,38 @@ public class VertraegeController {
 
     @RequestMapping(value = "/createVertrag", method = RequestMethod.POST)
     @ResponseBody
-    public String createVertraege(String vertragsart, Long azubi_id, String vertrags_value) {
+    public String createVertraege(String vertragsart, Long azubi_id, String vertragsvalue) {
         try {
-            Vertrag vertrag = new Vertrag(vertragsart, azubi_id, vertrags_value);
-            vertragDao.createVertraege(vertrag);
+            List azubi_ids = vertragDao.getAllAzubiIds();
+            for (Object test_id : azubi_ids) {
+                Long curAzubiId = (Long) test_id;
+                Vertrag vertrag = new Vertrag();
+                vertrag.setVertragsart(vertragsart);
+                vertrag.setVertragsvalue("unbearbeitet");
+                vertrag.setAzubi_id(curAzubiId);
+
+                if (Objects.equals(azubi_id, test_id)) {
+                    vertrag.setVertragsvalue(vertragsvalue);
+                }
+                vertrag.setAzubi_id(curAzubiId);
+                vertragDao.createVertraege(vertrag);
+            }
+
         } catch (Exception ex) {
             return "Error creating the vertrag: " + ex.toString();
         }
-        return "vertrag succesfully created!";
+        return "Contruct succesfully created!";
     }
 
 
-    @RequestMapping(value = "/sfsfsfsf", method = RequestMethod.POST)
+    @RequestMapping(value = "/vertraegeUpdate", method = RequestMethod.POST)
     @ResponseBody
-    public String updateVertraege(String vertragsart, Long azubi_id, String vertrags_value) {
+    public String updateVertraege(String vertragsart, Long azubi_id, String vertragsvalue) {
         try {
-            System.out.println("1");
             Vertrag vertrag = vertragDao.getVertragById(azubi_id, vertragsart);
+            vertrag.setVertragsvalue(vertragsvalue);
 
-            System.out.println("2");
-            // vertrag.setVertragsart(vertragsart);
-            //vertrag.setAzubi_id(azubi_id);
-
-            System.out.println(vertrags_value);
-            vertrag.setVertragsvalue(vertrags_value);
-
-            vertragDao.updateVertraege(vertrag);
+            vertragDao.createVertraege(vertrag);
 
 
         } catch (Exception ex) {
@@ -63,7 +66,7 @@ public class VertraegeController {
 
             return "Error updating the vertrag: ";
         }
-        return "vertrag succesfully updated!";
+        return "Contruct succesfully updated!";
     }
 
 
@@ -72,16 +75,16 @@ public class VertraegeController {
     public String deleteVertragById(String vertragsart, Long azubi_id) {
         try {
             Vertrag vertrag = new Vertrag(vertragsart, azubi_id);
-            vertragDao.deleteVertragById(vertrag);
+            vertragDao.deleteVertragById(vertrag);  //warum nicht azubi_id?
         } catch (Exception ex) {
             return "Error deleting the vertrag: " + ex.toString();
         }
-        return "vertrag succesfully deleted!";
+        return "Contruct succesfully deleted!";
     }
 
     @RequestMapping(value = "/findAllVertraege")
     @ResponseBody
-    public String findAllvertrags() throws IOException {
+    public String findAllvertraege() throws IOException {
         List<Vertrag> vertrag = vertragDao.getAllVertraege();
         return putInformationsTovertragJSON(vertrag);
     }
@@ -90,13 +93,11 @@ public class VertraegeController {
     @ResponseBody
     public String findAllVertraegeByAzubiId(Long azubi_id) throws IOException {
         List<Vertrag> vertrag = vertragDao.getAllVertragsartenByAzubiID(azubi_id);
-        String vertraege = putInformationsTovertragJSON(vertrag);
-        return vertraege;
+        return putInformationsTovertragJSON(vertrag);
     }
 
 
     private String putInformationsTovertragJSON(List<Vertrag> vertrag) throws IOException {
-        System.out.println("v2: " + vertrag);
         String jsonText;
         StringWriter out = new StringWriter();
         JSONObject vertragjson = new JSONObject();

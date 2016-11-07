@@ -1,4 +1,26 @@
+html {
+    /*background-color: rgb(49, 65, 88) !important;*/
+}
 
+body {
+    background-color: rgb(49, 65, 88) !important;
+    background-size: cover;
+    background-image: url("../img/245.jpg");
+    font-family: 'Raleway', sans-serif !important;
+}
+
+label {
+    color: #009038 !important;
+}
+
+.jumbotron {
+    background: rgba(224, 232, 223, 0.37) !important;
+}
+
+.page-header h1 {
+    margin-left: 15px !important;
+
+}
 h1 {
     color: #0080c7 !important;
 }
@@ -26,8 +48,12 @@ thead {
 /*icons*/
 .icon {
     padding: 15px;
+    cursor: pointer
 }
 
+.icon:hover {
+    opacity: .2;
+}
 .icon img {
     height: 65px;
 }
@@ -44,6 +70,18 @@ thead {
     background-color: #19171c !important;
 }
 
+.nav-pills {
+    border-width: thin;
+    border-bottom-style: solid;
+    border-color: #0080c7 !important;
+    margin: 5% 0 !important;
+}
+
+.active a {
+    border-bottom-left-radius: 0% 0% !important;
+    border-bottom-right-radius: 0% !important;
+}
+
 .modal-footer {
     margin-top: 58%;
 }
@@ -58,6 +96,7 @@ thead {
 }
 
 .axelspringer_logo {
-    padding: 15px 15px;
+    padding-top: 15px;
+    padding-right: 15px;
 }
 

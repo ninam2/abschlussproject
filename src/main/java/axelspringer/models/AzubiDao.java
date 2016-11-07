@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Repository;
  * Spring to magically call begin() and commit() at the start/end of the
  * method. If exception occurs it will also call rollback().
  */
+@Component
 @Repository
 @Transactional
 public class AzubiDao {
@@ -42,19 +44,34 @@ public class AzubiDao {
 
 
     @SuppressWarnings("unchecked")
-    public List<Azubi> getAll() {
+    public List getAll() {
 
         return entityManager.createQuery("from Azubi").getResultList();
     }
 
-    public List getAllByVertrag(String vertrag) {
+    public List getAllByVertrag(String vertragsart) {
 
         return entityManager.createQuery(
                 "from Azubi " +
                         "where id in" +
                         "(select azubi_id " +
                         "from Vertrag " +
-                        "where vertragsart = 'test')")
+                        "where vertragsart = :vertragsart)")
+                .setParameter("vertragsart", vertragsart)
+                .getResultList();
+    }
+
+    public List getAllByVertragsartAndValue(String vertragsart, String vertragsvalue) {
+
+        return entityManager.createQuery(
+                "from Azubi " +
+                        "where id in" +
+                        "(select azubi_id " +
+                        "from Vertrag " +
+                        "where vertragsart = :vertragsart " +
+                        "and vertragsvalue = :vertragsvalue)")
+                .setParameter("vertragsart", vertragsart)
+                .setParameter("vertragsvalue", vertragsvalue)
                 .getResultList();
     }
 

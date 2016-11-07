@@ -18,6 +18,12 @@ public class MainController {
         return "getAllAzubis.html";
     }
 
+    @RequestMapping("/getAll?vertragsart")
+    public String vertraege() {
+
+        return "getVertraege.html";
+    }
+
     @RequestMapping("/add")
     public String add() {
 

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<head>
+    <!--<link rel="stylesheet" href="../styles/main.css">-->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.1.3/css/bootstrap-datetimepicker.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.1.3/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="js/getJobs.js"></script>
+    <script src="js/addAzubi.js"></script>
+    <script src="js/getDate.js"></script>
+
+</head>
+<body>
+<nav class="navbar navbar-inverse" role="navigation">
+    <div>
+
+        <div class="navbar-header">
+            <a class="navbar-brand" href="getAll">A z u b i s</a>
+        </div>
+
+        <ul class="nav navbar-nav">
+            <li><a href="add" class="active">Hinzufügen</a></li>
+
+            <li class="dropdown">
+                <a href="getAll" class="dropdown-toggle" data-toggle="dropdown">
+                    Verträge
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu vertrag">
+                </ul>
+            </li>
+
+            <li class="dropdown">
+                <a href="getAll" class="dropdown-toggle" data-toggle="dropdown">
+                    Beruf
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu job">
+                </ul>
+            </li>
+
+
+            <li class="dropdown">
+                <a href="getAll" class="dropdown-toggle" data-toggle="dropdown">
+                    Start
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu year">
+                </ul>
+
+            </li>
+        </ul>
+    </div>
+
+    <div class="navbar-header nav_axelspringer">
+        <img src="img/axelspringer_logo.png" class="axelspringer_logo">
+    </div>
+
+</nav>
+
+<div class="page-header">
+
+    <h1>
+        Axel Springer Berufsausbildung
+        <small> Auszubildendenverwaltung</small>
+    </h1>
+
+</div>
+<div class="container">
+
+    <h2>Azubi hinzufügen :)</h2>
+
+    <div class="form-group">
+        <label for="vorname" class="col-sm-2 control-label">Vorname</label>
+        <div class="col-sm-10 input">
+            <input type="text" class="form-control " id="vorname" placeholder="Enter First Name">
+        </div>
+
+        <label for="name" class="col-sm-2 control-label">Name</label>
+        <div class="input col-sm-10 ">
+            <input type="text" class="form-control " id="name" placeholder="Enter Last Name">
+        </div>
+
+        <label for="beruf" class="col-sm-2 control-label">Ausbildungsberuf</label>
+        <div class="col-sm-10 input">
+            <input type="text" class="form-control " id="beruf" placeholder="Enter Last Name">
+        </div>
+
+        <label for="email" class="col-sm-2 control-label">E-Mail-Adresse</label>
+        <div class="col-sm-10 input">
+            <input type="text" class="form-control " id="email" placeholder="Enter Last Name">
+        </div>
+
+        <label for="strasse" class="col-sm-2 control-label">Straße</label>
+        <div class="col-sm-10 input">
+            <input type="text" class="form-control " id="strasse" placeholder="Enter Last Name">
+        </div>
+
+        <label for="plz" class="col-sm-2 control-label">Postleitzahl</label>
+        <div class="col-sm-10 input">
+            <input type="text" class="form-control " id="plz" placeholder="Enter Last Name">
+        </div>
+
+        <label for="gebDatum" class="col-sm-2 control-label">Geburtsdatum</label>
+        <div class="col-sm-10 input">
+            <div class="form-group">
+                <div class='input-group date' id='datetimepicker1'>
+                    <input type='text' class="form-control" id="gebDatum"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar">
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <label for="gebOrt" class="col-sm-2 control-label">Geburtsort</label>
+        <div class="col-sm-10 input">
+            <input type="text" class="form-control " id="gebOrt" placeholder="Enter Last Name">
+        </div>
+
+        <label for="ausbildungsstart" class="col-sm-2 control-label">Ausbildungsstart</label>
+        <div class="col-sm-10 input">
+            <input type="text" class="form-control " id="ausbildungsstart" placeholder="Enter Last Name">
+        </div>
+
+        <a class='icon left-icon'>
+            <img src="img/icons/save.svg" class="createSubmit">
+        </a>
+    </div>
+</div>
+
+
+</body>
+</html>

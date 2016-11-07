@@ -1,5 +1,20 @@
 var urlArguments = $(location).attr('search');
 var url = "findAll";
+var CurVertragsart = getUrlVars()['vertragsart'];
+var curVertragsValue = getUrlVars()['vertragsvalue'];
+console.log("curVertragsart: " + CurVertragsart);
+console.log("curVertragsValue: " + curVertragsValue);
+function getUrlVars() {
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for (var i = 0; i < hashes.length; i++) {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
+
 
 if (urlArguments.length > 0) {
 
@@ -10,24 +25,31 @@ if (urlArguments.length > 0) {
     else if (urlArguments.startsWith('?year')) {
         url = url + "ByYear" + urlArguments;
     }
-    else {
-        url = url + "ByVertrag" + urlArguments;
-    }
-}
+    else if (urlArguments.startsWith('?vertragsart')) {
+        if (typeof curVertragsValue === 'undefined') {
+            console.log("its undefinde");
+            url = url + "ByVertrag" + urlArguments;
+        }
+        else {
+            url = url + "ByVertragAndValue" + urlArguments;
+            console.log("its definde");
+        }
 
+    }
+
+}
 
 function createPlaceholderValues(index, json) {
     console.log("testindex: " + index);
     //console.log("json:" +json.azubiinfos[index]);
     console.log("start:" + json.azubiinfos[index].ausbildungsstart);
     var id = json.azubiinfos[index].id;
-    document.getElementById("name").value = json.name;
+    document.getElementById("name").value = json.azubiinfos[index].name;
     document.getElementById("vorname").value = json.azubiinfos[index].vorname;
     document.getElementById("email").value = json.azubiinfos[index].email;
     document.getElementById("beruf").value = json.azubiinfos[index].beruf;
     document.getElementById("strasse").value = json.azubiinfos[index].strasse;
     document.getElementById("plz").value = json.azubiinfos[index].plz;
-    document.getElementById("gebDatum").value = json.azubiinfos[index].gebDatum;
     document.getElementById("gebOrt").value = json.azubiinfos[index].gebOrt;
     document.getElementById("ausbildungsstart").value = json.azubiinfos[index].ausbildungsstart;
 
@@ -50,7 +72,6 @@ function createPlaceholderValues(index, json) {
         var beruf = document.getElementById("beruf").value;
         var strasse = document.getElementById("strasse").value;
         var plz = document.getElementById("plz").value;
-        var gebDatum = document.getElementById("gebDatum").value;
         var gebOrt = document.getElementById("gebOrt").value;
         var ausbildungsstart = document.getElementById("ausbildungsstart").value;
 
@@ -63,7 +84,6 @@ function createPlaceholderValues(index, json) {
                 beruf: beruf,
                 strasse: strasse,
                 plz: plz,
-                gebDatum: gebDatum,
                 gebOrt: gebOrt,
                 ausbildungsstart: ausbildungsstart
             },
@@ -76,10 +96,60 @@ function createPlaceholderValues(index, json) {
 $.get(url, function (jsonObject) {
     json = "bla";
     json = $.parseJSON(jsonObject);
+
+    if (urlArguments.startsWith('?vertragsart')) {
+        CurVertragsart = getUrlVars()['vertragsart'];
+        $("<p>Ausgewählte Vertragsart: " + CurVertragsart + "</p>").appendTo(".url-values");
+        $("<ul class='nav nav-pills'>" +
+            "<li id='erhaltenUndUnterzeichnet'>" +
+            "<a href='getAll?vertragsart=" + CurVertragsart + "&vertragsvalue=erhalten%und%unterzeichnet'>erhalten und unterzeichnet</a>" +
+            "</li>" +
+            "<li id='erhalten' >" +
+            "<a href = 'getAll?vertragsart=" + CurVertragsart + "&vertragsvalue=erhalten'>erhalten</a>" +
+            "</li>" +
+            "<li id='verschickt' >" +
+            "<a href='getAll?vertragsart=" + CurVertragsart + "&vertragsvalue=verschickt'>verschickt</a>" +
+            "</li>" +
+            "<li id='unbearbeitet' >" +
+            "<a href='getAll?vertragsart=" + CurVertragsart + "&vertragsvalue=unbearbeitet'>unbearbeitet</a>" +
+            "</li>" +
+            "<li id='nichtVerschickt' >" +
+            "<a href='getAll?vertragsart=" + CurVertragsart + "&vertragsvalue=nicht%verschickt'>nicht verschickt</a>" +
+            "</li>" +
+            "<li id='nichtNotwaendig' >" +
+            "<a href='getAll?vertragsart=" + CurVertragsart + "&vertragsvalue=nicht%notwändig'>nicht notwändig</a>" +
+            "</li>" +
+            "</ul>").appendTo(".url-values");
+        switch (curVertragsValue) {
+            case "erhalten":
+                $('#erhalten').addClass('active');
+                break;
+            case "verschickt":
+                $('#verschickt').addClass('active');
+                break;
+
+            case "unbearbeitet":
+                $('#unbearbeitet').addClass('active');
+                break;
+
+            case "nicht%verschickt":
+                $('#nichtVerschickt').addClass('active');
+                break;
+
+            case "nicht%notw%C3%A4ndig":
+                $('#nichtNotwaendig').addClass('active');
+                break;
+
+            default :
+                $('#erhaltenUndUnterzeichnet').addClass('active');
+                break;
+        }
+    }
+
     for (index = 0; index < json.azubiinfos.length; ++index) {
         ausbildungsstart = json.azubiinfos[index].ausbildungsstart;
         $("year").append(json.azubiinfos[index].ausbildungsstart);
-        index2 = index;
+        var curId = json.azubiinfos[index].id;
         $("tbody").append(
             "<tr>" +
             "<td>" +
@@ -98,7 +168,7 @@ $.get(url, function (jsonObject) {
             "<td>" + json.azubiinfos[index].ausbildungsstart + "</td>" +
             "<td>" +
             "<a class='icon' data-toggle='modal' data-target='#myContract'>" +
-            "<img src='../img/vertraege.svg'  id='" + index + "'onclick='insertValues(this.id, json )' >" +
+            "<img src='../img/vertraege.svg'  id='" + index + "'onclick='insertValues(this.id, " + curId + ", json )' >" +
             "</a>" +
             "</td>" +
             "</tr>"

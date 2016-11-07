@@ -1,14 +1,13 @@
 package axelspringer.models;
 
-import org.springframework.beans.propertyeditors.StringArrayPropertyEditor;
+import org.springframework.core.env.SystemEnvironmentPropertySource;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Locale;
 
 /**
  * This class is used to access data for the Azubi entity.
@@ -38,7 +37,7 @@ public class VertragDao {
     }
 
 
-    public List getAllVertragsarten() {
+    public List<String> getAllVertragsarten() {
 
         return entityManager.createQuery(
                 "select distinct vertragsart " +
@@ -67,18 +66,36 @@ public class VertragDao {
     }
 
     public void deleteVertragById(Vertrag vertrag) {
-        if (entityManager.contains(vertrag))
-            entityManager.remove(vertrag);
-        else
+        Long azubi_id = vertrag.getAzubi_id();
+        List<Vertrag> vertragList =
+                entityManager.createQuery(
+                        "FROM Vertrag " +
+                                "where azubi_id = :azubi_id")
+                        .setParameter("azubi_id", azubi_id)
+                        .getResultList();
+        System.out.println(vertragList);
+        for (Vertrag curvertrag : vertragList) {
+            vertrag.setVertragsart(curvertrag.getVertragsart());
+
             entityManager.remove(entityManager.merge(vertrag));
+        }
     }
 
     public Vertrag getVertragById(Long azubi_id, String vertragsart) {
-        System.out.println("a");
-        Vertrag vertrag = entityManager.find(Vertrag.class, new VertragId(vertragsart, azubi_id));
-
-        System.out.println(vertrag.getVertragsvalue());
-        return vertrag;
+        return (Vertrag) entityManager.createQuery(
+                "from Vertrag " +
+                        "where azubi_id = :azubi_id " +
+                        "and vertragsart = :vertragsart")
+                .setParameter("azubi_id", azubi_id)
+                .setParameter("vertragsart", vertragsart)
+                .getSingleResult();
     }
 
+
+    public List getAllAzubiIds() {
+        return entityManager.createQuery("" +
+                "select distinct id " +
+                "from Azubi").getResultList();
+
+    }
 }
