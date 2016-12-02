@@ -10,14 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 /**
- * This class is used to access data for the Azubi entity.
- * Repository annotation allows the component scanning support to find and
- * configure the DAO wihtout any XML configuration and also provide the Spring
- * exceptiom translation.
- * Since we've setup setPackagesToScan and transaction manager on
- * DatabaseConfig, any bean method annotated with Transactional will cause
- * Spring to magically call begin() and commit() at the start/end of the
- * method. If exception occurs it will also call rollback().
+ * The type Azubi dao.
  */
 @Component
 @Repository
@@ -30,11 +23,21 @@ public class AzubiDao {
     private EntityManager entityManager;
 
 
+    /**
+     * Create.
+     *
+     * @param Azubi the azubi
+     */
     public void create(Azubi Azubi) {
         entityManager.persist(Azubi);
     }
 
 
+    /**
+     * Delete.
+     *
+     * @param Azubi the azubi
+     */
     public void delete(Azubi Azubi) {
         if (entityManager.contains(Azubi))
             entityManager.remove(Azubi);
@@ -43,12 +46,23 @@ public class AzubiDao {
     }
 
 
+    /**
+     * Gets all.
+     *
+     * @return the all
+     */
     @SuppressWarnings("unchecked")
     public List getAll() {
 
         return entityManager.createQuery("from Azubi").getResultList();
     }
 
+    /**
+     * Gets all by vertrag.
+     *
+     * @param vertragsart the vertragsart
+     * @return the all by vertrag
+     */
     public List getAllByVertrag(String vertragsart) {
 
         return entityManager.createQuery(
@@ -61,6 +75,13 @@ public class AzubiDao {
                 .getResultList();
     }
 
+    /**
+     * Gets all by vertragsart and value.
+     *
+     * @param vertragsart   the vertragsart
+     * @param vertragsvalue the vertragsvalue
+     * @return the all by vertragsart and value
+     */
     public List getAllByVertragsartAndValue(String vertragsart, String vertragsvalue) {
 
         return entityManager.createQuery(
@@ -75,6 +96,12 @@ public class AzubiDao {
                 .getResultList();
     }
 
+    /**
+     * Gets all by year.
+     *
+     * @param ausbildungsstart the ausbildungsstart
+     * @return the all by year
+     */
     public List getAllByYear(int ausbildungsstart) {
 
         return entityManager.createQuery(
@@ -83,6 +110,12 @@ public class AzubiDao {
                 .getResultList();
     }
 
+    /**
+     * Gets all by job.
+     *
+     * @param beruf the beruf
+     * @return the all by job
+     */
     public List getAllByJob(String beruf) {
 
         return entityManager.createQuery(
@@ -91,6 +124,11 @@ public class AzubiDao {
                 .getResultList();
     }
 
+    /**
+     * Gets all jobs.
+     *
+     * @return the all jobs
+     */
     public List getAllJobs() {
 
         return entityManager.createQuery("" +
@@ -98,27 +136,35 @@ public class AzubiDao {
                 "from Azubi").getResultList();
     }
 
+    /**
+     * Gets all years.
+     *
+     * @return the all years
+     */
     public List getAllYears() {
         return entityManager.createQuery("" +
                 "select distinct ausbildungsstart " +
                 "from Azubi").getResultList();
     }
 
-    public Azubi getByEmail(String email) {
-        return (Azubi) entityManager.createQuery(
-                "from Azubi where email = :email")
-                .setParameter("email", email)
-                .getSingleResult();
-    }
-
+    /**
+     * Gets Azubi by id.
+     *
+     * @param id the id
+     * @return Azubi by id
+     */
     public Azubi getById(long id) {
+
         return entityManager.find(Azubi.class, id);
     }
 
     /**
-     * Update the passed Azubi in the database.
+     * Update Azubi.
+     *
+     * @param Azubi the azubi
      */
     public void update(Azubi Azubi) {
+
         entityManager.merge(Azubi);
     }
 

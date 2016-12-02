@@ -20,25 +20,57 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 /**
- * Created by nmuelle2 on 04.11.16.
+ * The type Vertraege controller test.
  */
 @RunWith(MockitoJUnitRunner.class)
 public class VertraegeControllerTest {
 
 
+    /**
+     * The Vertraege.
+     */
     public List<Vertrag> vertraege = new ArrayList<>();
+    /**
+     * The Azubi i ds.
+     */
     protected List<Integer> azubiIDs = new ArrayList<>();
+    /**
+     * The Vertrag controller.
+     */
     @InjectMocks
     VertraegeController vertragController;
+    /**
+     * The Vertrag dao.
+     */
     @Mock
     VertragDao vertragDao;
+    /**
+     * The Entity manager.
+     */
     @Mock
     EntityManager entityManager;
+    /**
+     * The Vertrag 1.
+     */
     Vertrag vertrag1 = new Vertrag("Testvertrag", (long) 1, "unbearbeitet");
+    /**
+     * The Vertrag 2.
+     */
     Vertrag vertrag2 = new Vertrag("Azubivertrag", (long) 1, "bearbeitet");
+    /**
+     * The Vertrag 3.
+     */
     Vertrag vertrag3 = new Vertrag("Testvertrag", (long) 2, "unbearbeitet");
+    /**
+     * The Vertrag 4.
+     */
     Vertrag vertrag4 = new Vertrag("Azubivertrag", (long) 2, "unbearbeitet");
 
+    /**
+     * Test create vertraege.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testCreateVertraege() throws Exception {
 
@@ -48,6 +80,11 @@ public class VertraegeControllerTest {
         assertThat(response, equalTo("Contruct succesfully created!"));
     }
 
+    /**
+     * Test update vertraege.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testUpdateVertraege() throws Exception {
         azubiIDs.add(0);
@@ -60,6 +97,11 @@ public class VertraegeControllerTest {
         assertThat(response, equalTo("Contruct succesfully updated!"));
     }
 
+    /**
+     * Test delete vertrag by id.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testDeleteVertragById() throws Exception {
         vertraege.add(vertrag2);
@@ -70,6 +112,11 @@ public class VertraegeControllerTest {
         assertThat(response, equalTo("Contruct succesfully deleted!"));
     }
 
+    /**
+     * Test find allvertraege.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testFindAllvertraege() throws Exception {
         vertraege.add(vertrag1);
@@ -81,6 +128,11 @@ public class VertraegeControllerTest {
         assertThat(response, equalTo("{\"vertraginfos\":[{\"vertragsart\":\"Testvertrag\",\"azubiId\":1,\"vertragsvalue\":\"unbearbeitet\"},{\"vertragsart\":\"Azubivertrag\",\"azubiId\":1,\"vertragsvalue\":\"bearbeitet\"},{\"vertragsart\":\"Testvertrag\",\"azubiId\":2,\"vertragsvalue\":\"unbearbeitet\"},{\"vertragsart\":\"Azubivertrag\",\"azubiId\":2,\"vertragsvalue\":\"unbearbeitet\"}]}"));
     }
 
+    /**
+     * Test find all vertraege by azubi id.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testFindAllVertraegeByAzubiId() throws Exception {
         vertraege.add(vertrag1);

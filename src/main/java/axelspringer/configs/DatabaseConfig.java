@@ -16,7 +16,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * Contains database configurations.
+ * The type Database config.
  */
 @Configuration
 @EnableTransactionManagement
@@ -34,8 +34,9 @@ public class DatabaseConfig {
     private LocalContainerEntityManagerFactoryBean entityManagerFactory;
 
     /**
-     * DataSource definition for database connection. Settings are read from
-     * the application.properties file (using the env object).
+     * Data source data source.
+     *
+     * @return the data source
      */
     @Bean
     public DataSource dataSource() {
@@ -53,7 +54,9 @@ public class DatabaseConfig {
     // ------------------------
 
     /**
-     * Declare the JPA entity manager factory.
+     * Entity manager factory local container entity manager factory bean.
+     *
+     * @return the local container entity manager factory bean
      */
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -87,7 +90,9 @@ public class DatabaseConfig {
     }
 
     /**
-     * Declare the transaction manager.
+     * Transaction manager jpa transaction manager.
+     *
+     * @return the jpa transaction manager
      */
     @Bean
     public JpaTransactionManager transactionManager() {
@@ -99,11 +104,9 @@ public class DatabaseConfig {
     }
 
     /**
-     * PersistenceExceptionTranslationPostProcessor is a bean post processor
-     * which adds an advisor to any bean annotated with Repository so that any
-     * platform-specific exceptions are caught and then rethrown as one
-     * Spring's unchecked data access exceptions (i.e. a subclass of
-     * DataAccessException).
+     * Exception translation persistence exception translation post processor.
+     *
+     * @return the persistence exception translation post processor
      */
     @Bean
     public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {

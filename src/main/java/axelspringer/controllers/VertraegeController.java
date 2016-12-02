@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Class vertragController
+ * The type Vertraege controller.
  */
 @Controller
 public class VertraegeController {
@@ -25,6 +25,14 @@ public class VertraegeController {
     @Autowired
     private VertragDao vertragDao;
 
+    /**
+     * Create vertraege string.
+     *
+     * @param vertragsart   the vertragsart
+     * @param azubi_id      the azubi id
+     * @param vertragsvalue the vertragsvalue
+     * @return the string
+     */
     @RequestMapping(value = "/createVertrag", method = RequestMethod.POST)
     @ResponseBody
     public String createVertraege(String vertragsart, Long azubi_id, String vertragsvalue) {
@@ -51,6 +59,14 @@ public class VertraegeController {
     }
 
 
+    /**
+     * Update vertraege string.
+     *
+     * @param vertragsart   the vertragsart
+     * @param azubi_id      the azubi id
+     * @param vertragsvalue the vertragsvalue
+     * @return the string
+     */
     @RequestMapping(value = "/vertraegeUpdate", method = RequestMethod.POST)
     @ResponseBody
     public String updateVertraege(String vertragsart, Long azubi_id, String vertragsvalue) {
@@ -70,6 +86,13 @@ public class VertraegeController {
     }
 
 
+    /**
+     * Delete vertrag by id string.
+     *
+     * @param vertragsart the vertragsart
+     * @param azubi_id    the azubi id
+     * @return the string
+     */
     @RequestMapping(value = "/deleteVertrag", method = RequestMethod.POST)
     @ResponseBody
     public String deleteVertragById(String vertragsart, Long azubi_id) {
@@ -82,6 +105,12 @@ public class VertraegeController {
         return "Contruct succesfully deleted!";
     }
 
+    /**
+     * Find allvertraege string.
+     *
+     * @return the string
+     * @throws IOException the io exception
+     */
     @RequestMapping(value = "/findAllVertraege")
     @ResponseBody
     public String findAllvertraege() throws IOException {
@@ -89,6 +118,13 @@ public class VertraegeController {
         return putInformationsTovertragJSON(vertrag);
     }
 
+    /**
+     * Find all vertraege by azubi id string.
+     *
+     * @param azubi_id the azubi id
+     * @return the string
+     * @throws IOException the io exception
+     */
     @RequestMapping(value = "/findVertraegeByAzubiId")
     @ResponseBody
     public String findAllVertraegeByAzubiId(Long azubi_id) throws IOException {

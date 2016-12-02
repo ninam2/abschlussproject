@@ -27,45 +27,111 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
+/**
+ * The type Azubi controller test.
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class AzubiControllerTest {
 
+    /**
+     * The Azubis.
+     */
     public List<Azubi> azubis = new ArrayList<>();
+    /**
+     * The Vertraege.
+     */
     public List<Vertrag> vertraege = new ArrayList<>();
+    /**
+     * The Formatter.
+     */
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    /**
+     * The Date.
+     */
     Date date = new Date(2004 - 06 - 27);
+    /**
+     * The Cur date.
+     */
     final String curDate = formatter.format(date);
+    /**
+     * The Azubi.
+     */
     Azubi azubi = new Azubi("test@email.de", "testname", "testvorname", "testberuf", "teststrasse", 98765, date, "testGebort", 2002);
+    /**
+     * The Azubi 2.
+     */
     Azubi azubi2 = new Azubi("nina@email.de", "müller", "nina", "fachinformatiker", "teststrasse", 12345, date, "testGebort", 2016);
+    /**
+     * The Azubi 3.
+     */
     Azubi azubi3 = new Azubi("test2@email.de", "mustermann", "max", "testberuf", "teststrasse", 98765, date, "testGebort", 2002);
+    /**
+     * The Vertrag 1.
+     */
     Vertrag vertrag1 = new Vertrag("Testvertrag", (long) 1, "unbearbeitet");
+    /**
+     * The Vertrag 2.
+     */
     Vertrag vertrag2 = new Vertrag("Azubivertrag", (long) 1, "bearbeitet");
+    /**
+     * The Vertrag 3.
+     */
     Vertrag vertrag3 = new Vertrag("Testvertrag", (long) 2, "unbearbeitet");
+    /**
+     * The Vertrag 4.
+     */
     Vertrag vertrag4 = new Vertrag("Azubivertrag", (long) 2, "unbearbeitet");
+    /**
+     * The Azubi dao.
+     */
     @Mock
     AzubiDao azubiDao;
 
+    /**
+     * The Vertrag dao.
+     */
     @Mock
     VertragDao vertragDao;
 
+    /**
+     * The Entity manager.
+     */
     @Mock
     EntityManager entityManager;
 
 
+    /**
+     * The Azubi controller.
+     */
     @InjectMocks
     AzubiController azubiController;
 
 
+    /**
+     * Sets up.
+     *
+     * @throws Exception the exception
+     */
     @Before
     public void setUp() throws Exception {
 
     }
 
+    /**
+     * Tear down.
+     *
+     * @throws Exception the exception
+     */
     @After
     public void tearDown() throws Exception {
 
     }
 
+    /**
+     * Test update name.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testUpdateName() throws Exception {
         azubi.setAusbildungsstart(2002);
@@ -76,6 +142,11 @@ public class AzubiControllerTest {
 
     }
 
+    /**
+     * Test delete.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testDelete() throws Exception {
 
@@ -86,6 +157,11 @@ public class AzubiControllerTest {
 
     }
 
+    /**
+     * Test find all azubis.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testFindAllAzubis() throws Exception {
         azubi.setId(1);
@@ -106,6 +182,11 @@ public class AzubiControllerTest {
         assertThat(response, equalTo(expectedJSON));
     }
 
+    /**
+     * Test find vertraege by azubi id.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testFindVertraegeByAzubiId() throws Exception {
 
@@ -122,6 +203,11 @@ public class AzubiControllerTest {
         assertThat(response, equalTo(expectedJSON));
     }
 
+    /**
+     * Test find vertraege by type and value.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testFindVertraegeByTypeAndValue() throws Exception {
         azubis.add(azubi2);
@@ -134,6 +220,11 @@ public class AzubiControllerTest {
         assertThat(response, equalTo(expectedJSON));
     }
 
+    /**
+     * Test find all azubis by year.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testFindAllAzubisByYear() throws Exception {
         azubis.add(azubi);
@@ -146,6 +237,11 @@ public class AzubiControllerTest {
         assertThat(response, equalTo(expectedJSON));
     }
 
+    /**
+     * Test find all azubis by job.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testFindAllAzubisByJob() throws Exception {
         azubi.setId(1);
@@ -160,6 +256,11 @@ public class AzubiControllerTest {
         assertThat(response, equalTo(expectedJSON));
     }
 
+    /**
+     * Test find all azubis jobs and years.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testFindAllAzubisJobsAndYears() throws Exception {
         List<Integer> jahre = new ArrayList<>();

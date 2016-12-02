@@ -9,7 +9,6 @@ $.get("findAllJobsAndYears", function (jsonObject) {
             "</li>"
         ).appendTo(".job");
     }
-
     for (var index = 0; index < json.years.length; ++index) {
         var currentYear = json.years[index].year;
         $("<li>" +
@@ -19,8 +18,6 @@ $.get("findAllJobsAndYears", function (jsonObject) {
             "</li>"
         ).appendTo(".year");
     }
-
-
     for (var index = 0; index < json.vertragsarten.length; ++index) {
         var currentVertrag = json.vertragsarten[index].vertragsart;
         $("<li>" +
@@ -30,5 +27,4 @@ $.get("findAllJobsAndYears", function (jsonObject) {
             "</li>"
         ).appendTo(".vertrag");
     }
-
 });

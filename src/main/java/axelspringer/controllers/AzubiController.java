@@ -21,7 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Class AzubiController
+ * The type Azubi controller.
  */
 @Controller
 public class AzubiController {
@@ -32,6 +32,21 @@ public class AzubiController {
     @Autowired
     private VertragDao vertragDao;
 
+    /**
+     * Create string.
+     *
+     * @param email            the email
+     * @param name             the name
+     * @param vorname          the vorname
+     * @param beruf            the beruf
+     * @param strasse          the strasse
+     * @param plz              the plz
+     * @param gebDatum         the geb datum
+     * @param gebOrt           the geb ort
+     * @param ausbildungsstart the ausbildungsstart
+     * @return the string
+     * @throws IOException the io exception
+     */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
     public String create(String email, String name, String vorname, String beruf, String strasse, Integer plz, String gebDatum, String gebOrt, Integer ausbildungsstart) throws IOException {
@@ -53,7 +68,6 @@ public class AzubiController {
             }
 
 
-
         } catch (Exception ex) {
             return "Error creating the Azubi: " + ex.toString();
         }
@@ -61,6 +75,20 @@ public class AzubiController {
     }
 
 
+    /**
+     * Update name string.
+     *
+     * @param id               the id
+     * @param email            the email
+     * @param name             the name
+     * @param vorname          the vorname
+     * @param beruf            the beruf
+     * @param strasse          the strasse
+     * @param plz              the plz
+     * @param gebOrt           the geb ort
+     * @param ausbildungsstart the ausbildungsstart
+     * @return the string
+     */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
     public String updateName(long id, String email, String name, String vorname, String beruf, String strasse, Integer plz, String gebOrt, Integer ausbildungsstart) {
@@ -83,6 +111,12 @@ public class AzubiController {
     }
 
 
+    /**
+     * Delete string.
+     *
+     * @param id the id
+     * @return the string
+     */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
     public String delete(long id) {
@@ -98,6 +132,12 @@ public class AzubiController {
         return "Azubi succesfully deleted!";
     }
 
+    /**
+     * Find all azubis string.
+     *
+     * @return the string
+     * @throws IOException the io exception
+     */
     @RequestMapping(value = "/findAll")
     @ResponseBody
     public String findAllAzubis() throws IOException {
@@ -106,6 +146,13 @@ public class AzubiController {
     }
 
 
+    /**
+     * Find vertraege by azubi id string.
+     *
+     * @param vertragsart the vertragsart
+     * @return the string
+     * @throws IOException the io exception
+     */
     @RequestMapping(value = "/findAllByVertrag")
     @ResponseBody
     public String findVertraegeByAzubiId(String vertragsart) throws IOException {
@@ -113,6 +160,14 @@ public class AzubiController {
         return putInformationsToAzubiJSON(azubis);
     }
 
+    /**
+     * Find vertraege by type and value string.
+     *
+     * @param vertragsart   the vertragsart
+     * @param vertragsvalue the vertragsvalue
+     * @return the string
+     * @throws IOException the io exception
+     */
     @RequestMapping(value = "/findAllByVertragAndValue")
     @ResponseBody
     public String findVertraegeByTypeAndValue(String vertragsart, String vertragsvalue) throws IOException {
@@ -120,6 +175,13 @@ public class AzubiController {
         return putInformationsToAzubiJSON(azubis);
     }
 
+    /**
+     * Find all azubis by year string.
+     *
+     * @param year the year
+     * @return the string
+     * @throws IOException the io exception
+     */
     @RequestMapping(value = "/findAllByYear")
     @ResponseBody
     public String findAllAzubisByYear(Integer year) throws IOException {
@@ -128,6 +190,13 @@ public class AzubiController {
     }
 
 
+    /**
+     * Find all azubis by job string.
+     *
+     * @param beruf the beruf
+     * @return the string
+     * @throws IOException the io exception
+     */
     @RequestMapping(value = "/findAllByJob")
     @ResponseBody
     public String findAllAzubisByJob(String beruf) throws IOException {
@@ -136,6 +205,12 @@ public class AzubiController {
     }
 
 
+    /**
+     * Find all azubis jobs and years string.
+     *
+     * @return the string
+     * @throws IOException the io exception
+     */
     @RequestMapping(value = "/findAllJobsAndYears")
     @ResponseBody
     public String findAllAzubisJobsAndYears() throws IOException {
@@ -180,10 +255,15 @@ public class AzubiController {
         }
     }
 
+    /**
+     * Put informations tovertrag json json object.
+     *
+     * @param vertrag the vertrag
+     * @return the json object
+     * @throws IOException the io exception
+     */
     protected JSONObject putInformationsTovertragJSON(List<Vertrag> vertrag) throws IOException {
 
-        String jsonText;
-        StringWriter out = new StringWriter();
         JSONObject vertragjson = new JSONObject();
         JSONArray vertragInfosArray = new JSONArray();
 
@@ -200,6 +280,13 @@ public class AzubiController {
         return vertragjson;
     }
 
+    /**
+     * Put informations to azubi json string.
+     *
+     * @param azubi the azubi
+     * @return the string
+     * @throws IOException the io exception
+     */
     protected String putInformationsToAzubiJSON(List<Azubi> azubi) throws IOException {
         String jsonText;
         StringWriter out = new StringWriter();

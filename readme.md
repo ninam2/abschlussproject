@@ -1,8 +1,3 @@
-## Use JPA + Hibernate + MySQL in Spring Boot
-
-See here for more informations: 
-http://blog.axelspringer.com/2014/10/06/spring-boot-data-access-with-jpa-hibernate-and-mysql/
-
 ### Usage
 
 - Run the application and go on http://localhost:8080/
@@ -31,7 +26,3 @@ database connection.
 Go on the project's root folder, then type:
 
     $ mvn spring-boot:run
-
-#### From Eclipse (Spring Tool Suite)
-
-Import as *Existing Maven Project* and run it as *Spring Boot App*.
