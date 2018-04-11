@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -212,6 +214,9 @@ public class Azubi {
      * @return the geb datum
      */
     public Date getGebDatum() {
+        System.out.print(gebDatum);
+        System.out.print(gebDatum);
+
         return gebDatum;
     }
 

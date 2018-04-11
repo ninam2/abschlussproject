@@ -296,12 +296,12 @@ public class AzubiController {
 
         for (Azubi anAzubi : azubi) {
 
+
             JSONObject azubiInformations = new JSONObject();
 
 
             List<Vertrag> vertrag = vertragDao.getAllVertragsartenByAzubiID(anAzubi.getId());
             JSONObject vertraegeJson = putInformationsTovertragJSON(vertrag);
-
 
             azubiInformations.put("id", anAzubi.getId());
             azubiInformations.put("email", anAzubi.getEmail());
@@ -310,7 +310,7 @@ public class AzubiController {
             azubiInformations.put("beruf", anAzubi.getBeruf());
             azubiInformations.put("strasse", anAzubi.getStrasse());
             azubiInformations.put("plz", anAzubi.getPLZ());
-            azubiInformations.put("gebDatum", anAzubi.getGebDatum().toString());
+            azubiInformations.put("gebDatum", anAzubi.getGebDatum().toString().substring(0, 10));
             azubiInformations.put("gebOrt", anAzubi.getGebOrt());
             azubiInformations.put("ausbildungsstart", anAzubi.getAusbildungsstart());
             azubiInformations.put("vertraege", vertraegeJson);
@@ -320,6 +320,7 @@ public class AzubiController {
         azubijson.put("azubiinfos", azubiInfosArray);
         azubijson.writeJSONString(out);
         jsonText = out.toString();
+
         return jsonText;
     }
 

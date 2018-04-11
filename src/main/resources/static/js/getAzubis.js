@@ -27,12 +27,12 @@ if (urlArguments.length > 0) {
     }
     else if (urlArguments.startsWith('?vertragsart')) {
         if (typeof curVertragsValue === 'undefined') {
-            console.log("its undefinde");
+            console.log("its undefined");
             url = url + "ByVertrag" + urlArguments;
         }
         else {
             url = url + "ByVertragAndValue" + urlArguments;
-            console.log("its definde");
+            console.log("its defined");
         }
 
     }
@@ -102,7 +102,7 @@ $.get(url, function (jsonObject) {
         $("<p>Ausgewählte Vertragsart: " + CurVertragsart + "</p>").appendTo(".url-values");
         $("<ul class='nav nav-pills'>" +
             "<li id='erhaltenUndUnterzeichnet'>" +
-            "<a href='getAll?vertragsart=" + CurVertragsart + "&vertragsvalue=erhalten%und%unterzeichnet'>erhalten und unterzeichnet</a>" +
+                "<a href='getAll?vertragsart=" + CurVertragsart + "&vertragsvalue=erhalten%20und%20unterzeichnet'>erhalten und unterzeichnet</a>" +
             "</li>" +
             "<li id='erhalten' >" +
             "<a href = 'getAll?vertragsart=" + CurVertragsart + "&vertragsvalue=erhalten'>erhalten</a>" +
@@ -114,10 +114,10 @@ $.get(url, function (jsonObject) {
             "<a href='getAll?vertragsart=" + CurVertragsart + "&vertragsvalue=unbearbeitet'>unbearbeitet</a>" +
             "</li>" +
             "<li id='nichtVerschickt' >" +
-            "<a href='getAll?vertragsart=" + CurVertragsart + "&vertragsvalue=nicht%verschickt'>nicht verschickt</a>" +
+                "<a href='getAll?vertragsart=" + CurVertragsart + "&vertragsvalue=nicht%20verschickt'>nicht verschickt</a>" +
             "</li>" +
-            "<li id='nichtNotwaendig' >" +
-            "<a href='getAll?vertragsart=" + CurVertragsart + "&vertragsvalue=nicht%notwändig'>nicht notwändig</a>" +
+                "<li id='nichtNotwendig' >" +
+                "<a href='getAll?vertragsart=" + CurVertragsart + "&vertragsvalue=nicht%20notwendig'>nicht notwendig</a>" +
             "</li>" +
             "</ul>").appendTo(".url-values");
         switch (curVertragsValue) {
@@ -132,16 +132,18 @@ $.get(url, function (jsonObject) {
                 $('#unbearbeitet').addClass('active');
                 break;
 
-            case "nicht%verschickt":
+            case "nicht%20verschickt":
                 $('#nichtVerschickt').addClass('active');
                 break;
 
-            case "nicht%notw%C3%A4ndig":
-                $('#nichtNotwaendig').addClass('active');
+            case "nicht%20notwendig":
+                $('#nichtNotwendig').addClass('active');
+                break;
+            case "erhaltenUndUnterzeichnet":
+                $('#erhaltenUndUnterzeichnet').addClass('active');
                 break;
 
             default :
-                $('#erhaltenUndUnterzeichnet').addClass('active');
                 break;
         }
     }

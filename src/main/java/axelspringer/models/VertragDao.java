@@ -94,7 +94,6 @@ public class VertragDao {
                                 "where azubi_id = :azubi_id")
                         .setParameter("azubi_id", azubi_id)
                         .getResultList();
-        System.out.println(vertragList);
         for (Vertrag curvertrag : vertragList) {
             vertrag.setVertragsart(curvertrag.getVertragsart());
 
